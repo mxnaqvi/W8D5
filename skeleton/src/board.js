@@ -9,7 +9,23 @@ if (typeof window === 'undefined'){
  * and two white pieces at [3, 3] and [4, 4]
  */
 function _makeGrid () {
+  let grid = [];
+  for (let i = 0; i < 8; i++) {
+    grid[i] = [];
+    for (let j = 0; j < 8; j++) {
+      grid[i][j] = undefined
+    }
+  }
+  // return grid;
+  grid[3][4] = new Piece("black");
+  grid[4][3] = new Piece("black");
+  grid[3][3] = new Piece("white");
+  grid[4][4] = new Piece("white");
+
+  return grid;
+  
 }
+
 
 /**
  * Constructs a Board with a starting grid set up.
@@ -26,8 +42,14 @@ Board.DIRS = [
 
 /**
  * Checks if a given position is on the Board.
- */
+ */ [1,2]
 Board.prototype.isValidPos = function (pos) {
+  const x = pos[0]
+  const y = pos[1]
+  if ((x < 0 || x > 7) || (y < 0 || y > 7)) {
+  return false
+  } 
+  return true
 };
 
 /**
@@ -35,6 +57,13 @@ Board.prototype.isValidPos = function (pos) {
  * throwing an Error if the position is invalid.
  */
 Board.prototype.getPiece = function (pos) {
+  let valid= this.isValidPos(pos);
+  if (valid === true) {
+  return this.grid[pos[0]][pos[1]]
+  } else {
+    throw new Error ("Not valid pos!")
+  }
+  
 };
 
 /**
@@ -42,12 +71,26 @@ Board.prototype.getPiece = function (pos) {
  * matches a given color.
  */
 Board.prototype.isMine = function (pos, color) {
+  shit = this.getPiece(pos);
+  if (shit === undefined){
+    return false
+  };
+  if (shit.color === color){
+    return true} else {
+    return false
+  };
 };
 
 /**
  * Checks if a given position has a piece on it.
  */
 Board.prototype.isOccupied = function (pos) {
+  poop = this.getPiece(pos);
+  if (poop !== undefined) {
+    return true
+  } else {
+    return false
+  }
 };
 
 /**
@@ -64,6 +107,7 @@ Board.prototype.isOccupied = function (pos) {
  * Returns empty array if no pieces of the opposite color are found.
  */
 Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
+  
 };
 
 /**
@@ -120,3 +164,8 @@ if (typeof window === 'undefined'){
   module.exports = Board;
 }
 // DON'T TOUCH THIS CODE
+
+let board = new Board(); 
+console.log(board.grid);
+board[0][0] = "w"
+console.log(board.grid)
